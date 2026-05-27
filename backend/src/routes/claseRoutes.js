@@ -3,7 +3,7 @@ const router = express.Router();
 const claseController = require('../controllers/claseController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { claseschema } = require('../schemas/claseschema');
+const { claseSchema } = require('../schemas/claseSchema');
 const db = require('../config/db');
 
 // ============================================
@@ -104,8 +104,8 @@ router.get('/mis-clases', protegerRuta, async (req, res) => {
 // RUTAS PROTEGIDAS (solo ADMIN)
 // ============================================
 
-router.post('/', protegerRuta, verificarRol(1), validate(claseschema), claseController.postClase);
-router.put('/:id', protegerRuta, verificarRol(1), validate(claseschema), claseController.putClase);
+router.post('/', protegerRuta, verificarRol(1), validate(claseSchema), claseController.postClase);
+router.put('/:id', protegerRuta, verificarRol(1), validate(claseSchema), claseController.putClase);
 router.delete('/:id', protegerRuta, verificarRol(1), claseController.deleteClase);
 
 // ============================================

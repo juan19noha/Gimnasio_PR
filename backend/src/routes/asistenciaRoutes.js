@@ -3,7 +3,7 @@ const router = express.Router();
 const asistenciaController = require('../controllers/asistenciaController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { asistenciaschema } = require('../schemas/asistenciaschema');
+const { asistenciaSchema } = require('../schemas/asistenciaSchema');
 
 // Rutas protegidas (requieren autenticación)
 router.use(protegerRuta);
@@ -17,7 +17,7 @@ router.get('/usuario/:idUsuario', asistenciaController.getasistenciasByUsuario);
 router.get('/clase/:idClase', asistenciaController.getasistenciasByClase);
 
 // Registrar asistencia (con validación Joi)
-router.post('/', validate(asistenciaschema), asistenciaController.postAsistencia);
+router.post('/', validate(asistenciaSchema), asistenciaController.postAsistencia);
 
 // Eliminar asistencia (solo ADMIN)
 router.delete('/:id', verificarRol(1), asistenciaController.deleteAsistencia);

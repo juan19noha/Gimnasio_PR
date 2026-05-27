@@ -3,7 +3,7 @@ const router = express.Router();
 const productoController = require('../controllers/productoController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { productoschema } = require('../schemas/productoschema');
+const { productoSchema } = require('../schemas/productoSchema');
 
 // Rutas públicas (cualquiera puede ver productos)
 router.get('/', productoController.getproductos);
@@ -11,8 +11,8 @@ router.get('/:id', productoController.getProductoById);
 router.get('/categoria/:idCategoria', productoController.getproductosByCategoria);
 
 // Rutas protegidas (solo ADMIN) + validación Joi
-router.post('/', protegerRuta, verificarRol(1), validate(productoschema), productoController.postProducto);
-router.put('/:id', protegerRuta, verificarRol(1), validate(productoschema), productoController.putProducto);
+router.post('/', protegerRuta, verificarRol(1), validate(productoSchema), productoController.postProducto);
+router.put('/:id', protegerRuta, verificarRol(1), validate(productoSchema), productoController.putProducto);
 router.delete('/:id', protegerRuta, verificarRol(1), productoController.deleteProducto);
 
 // Actualizar stock (ADMIN)

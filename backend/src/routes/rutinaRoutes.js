@@ -3,7 +3,7 @@ const router = express.Router();
 const rutinaController = require('../controllers/rutinaController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { rutinaschema, ejerciciorutinaschema } = require('../schemas/rutinaschema');
+const { rutinaSchema, ejercicioRutinaSchema } = require('../schemas/rutinaSchema');
 
 // Rutas protegidas (requieren autenticación)
 router.use(protegerRuta);
@@ -14,9 +14,9 @@ router.get('/:id', rutinaController.getRutinaById);
 router.get('/usuario/:idUsuario', rutinaController.getrutinasByUsuario);
 
 // Crear y modificar rutinas (con validación Joi)
-router.post('/', validate(rutinaschema), rutinaController.postRutina);
-router.post('/:id/ejercicios', validate(ejerciciorutinaschema), rutinaController.postEjercicioARutina);
-router.put('/:id', validate(rutinaschema), rutinaController.putRutina);
+router.post('/', validate(rutinaSchema), rutinaController.postRutina);
+router.post('/:id/ejercicios', validate(ejercicioRutinaSchema), rutinaController.postEjercicioARutina);
+router.put('/:id', validate(rutinaSchema), rutinaController.putRutina);
 
 // Eliminar (solo ADMIN o el propio usuario de sus rutinas)
 router.delete('/:id', rutinaController.deleteRutina);

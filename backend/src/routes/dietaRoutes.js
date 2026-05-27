@@ -3,7 +3,7 @@ const router = express.Router();
 const dietaController = require('../controllers/dietaController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { dietaschema, comidadietaschema } = require('../schemas/dietaschema');
+const { dietaSchema, comidadietaSchema } = require('../schemas/dietaSchema');
 
 // Rutas protegidas (requieren autenticación)
 router.use(protegerRuta);
@@ -14,9 +14,9 @@ router.get('/:id', dietaController.getDietaById);
 router.get('/usuario/:idUsuario', dietaController.getdietasByUsuario);
 
 // Crear y modificar dietas (con validación Joi)
-router.post('/', validate(dietaschema), dietaController.postDieta);
-router.post('/:id/comidas', validate(comidadietaschema), dietaController.postComidaADieta);
-router.put('/:id', validate(dietaschema), dietaController.putDieta);
+router.post('/', validate(dietaSchema), dietaController.postDieta);
+router.post('/:id/comidas', validate(comidadietaSchema), dietaController.postComidaADieta);
+router.put('/:id', validate(dietaSchema), dietaController.putDieta);
 
 // Eliminar
 router.delete('/:id', dietaController.deleteDieta);

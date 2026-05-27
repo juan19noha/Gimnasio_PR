@@ -3,11 +3,11 @@ const router = express.Router();
 const { getusuarios, getUsuarioById, updateUsuario, deleteUsuario } = require('../controllers/usuarioController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { actualizarusuarioschema } = require('../schemas/usuarioschema');
+const { actualizarUsuarioSchema } = require('../schemas/usuarioSchema');
 
 router.get('/', protegerRuta, verificarRol(1), getusuarios);
 router.get('/:id', protegerRuta, getUsuarioById);
-router.put('/:id', protegerRuta, validate(actualizarusuarioschema), updateUsuario);
+router.put('/:id', protegerRuta, validate(actualizarUsuarioSchema), updateUsuario);
 router.delete('/:id', protegerRuta, verificarRol(1), deleteUsuario);
 router.get('/proveedores', protegerRuta, verificarRol(1), async (req, res, next) => {
     try {
