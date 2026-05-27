@@ -1,10 +1,7 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { FaDumbbell, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaFacebook } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { RiInstagramFill } from 'react-icons/ri';
+import { FaDumbbell, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
     const [correo, setCorreo] = useState('');
@@ -58,19 +55,6 @@ const Login = () => {
                 setError(mensaje || 'Error al iniciar sesión. Inténtalo de nuevo.');
             }
         }
-    };
-
-    // Login con redes sociales
-    const loginConGoogle = () => {
-        window.location.href = 'http://localhost:3000/api/auth/google';
-    };
-
-    const loginConFacebook = () => {
-        window.location.href = 'http://localhost:3000/api/auth/facebook';
-    };
-
-    const loginConInstagram = () => {
-        window.location.href = 'http://localhost:3000/api/auth/instagram';
     };
 
     const styles = {
@@ -227,59 +211,6 @@ const Login = () => {
             cursor: 'pointer',
             transition: 'opacity 0.3s',
         },
-        divider: {
-            display: 'flex',
-            alignItems: 'center',
-            margin: '1.5rem 0',
-            color: '#666',
-            fontSize: '0.85rem',
-        },
-        dividerLine: {
-            flex: 1,
-            height: '1px',
-            background: '#333',
-        },
-        dividerText: {
-            padding: '0 1rem',
-        },
-        socialBtn: {
-            width: '100%',
-            padding: '0.9rem',
-            border: '1px solid #333',
-            borderRadius: '8px',
-            background: '#1a1a1a',
-            color: '#fff',
-            fontSize: '0.95rem',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.75rem',
-            marginBottom: '0.75rem',
-            transition: 'all 0.3s',
-        },
-        googleBtn: {
-            borderColor: '#444',
-        },
-        googleIcon: {
-            fontSize: '1.3rem',
-        },
-        facebookBtn: {
-            background: '#1877F2',
-            borderColor: '#1877F2',
-            color: '#fff',
-        },
-        facebookIcon: {
-            fontSize: '1.3rem',
-        },
-        instagramBtn: {
-            background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
-            border: 'none',
-            color: '#fff',
-        },
-        instagramIcon: {
-            fontSize: '1.3rem',
-        },
         error: {
             background: 'rgba(255,68,68,0.1)',
             border: '1px solid #ff4444',
@@ -358,41 +289,6 @@ const Login = () => {
                             <span>{error}</span>
                         </div>
                     )}
-
-                    {/* Botones de redes sociales */}
-                    <button 
-                        type="button" 
-                        style={{...styles.socialBtn, ...styles.googleBtn}} 
-                        onClick={loginConGoogle}
-                    >
-                        <FcGoogle style={styles.googleIcon} />
-                        Continuar con Gmail
-                    </button>
-
-                    <button 
-                        type="button" 
-                        style={{...styles.socialBtn, ...styles.facebookBtn}} 
-                        onClick={loginConFacebook}
-                    >
-                        <FaFacebook style={styles.facebookIcon} />
-                        Continuar con Facebook
-                    </button>
-
-                    <button 
-                        type="button" 
-                        style={{...styles.socialBtn, ...styles.instagramBtn}} 
-                        onClick={loginConInstagram}
-                    >
-                        <RiInstagramFill style={styles.instagramIcon} />
-                        Continuar con Instagram
-                    </button>
-
-                    {/* Divisor */}
-                    <div style={styles.divider}>
-                        <div style={styles.dividerLine}></div>
-                        <span style={styles.dividerText}>o</span>
-                        <div style={styles.dividerLine}></div>
-                    </div>
 
                     <form onSubmit={handleSubmit}>
                         <div style={styles.group}>
