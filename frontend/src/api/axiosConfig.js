@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+// Usar localhost en desarrollo, Railway en producción
+const baseURL = import.meta.env.PROD 
+    ? 'https://gimnasiopr-production.up.railway.app/api' 
+    : 'http://localhost:3000/api';
+
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL,
     headers: {
         'Content-Type': 'application/json'
     }
