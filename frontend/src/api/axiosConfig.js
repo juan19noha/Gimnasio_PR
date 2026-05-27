@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Usar localhost en desarrollo, Railway en producción
 const baseURL = import.meta.env.PROD 
-    ? 'https://gimnasiopr-production.up.railway.app/api' 
+    ? 'https://gimnasio-pr.onrender.com/api' 
     : 'http://localhost:3000/api';
 
 const api = axios.create({
