@@ -9,12 +9,12 @@ const { asistenciaSchema } = require('../schemas/asistenciaSchema');
 router.use(protegerRuta);
 
 // ADMIN puede ver todas las asistencias
-router.get('/', verificarRol(1), asistenciaController.getasistencias);
+router.get('/', verificarRol(1), asistenciaController.getAsistencias);
 
 // Cualquier usuario autenticado puede ver asistencias específicas
 router.get('/:id', asistenciaController.getAsistenciaById);
-router.get('/usuario/:idUsuario', asistenciaController.getasistenciasByUsuario);
-router.get('/clase/:idClase', asistenciaController.getasistenciasByClase);
+router.get('/usuario/:idUsuario', asistenciaController.getAsistenciasByUsuario);
+router.get('/clase/:idClase', asistenciaController.getAsistenciasByClase);
 
 // Registrar asistencia (con validación Joi)
 router.post('/', validate(asistenciaSchema), asistenciaController.postAsistencia);

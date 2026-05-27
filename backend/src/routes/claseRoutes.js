@@ -10,10 +10,10 @@ const db = require('../config/db');
 // RUTAS PÚBLICAS (cualquiera puede ver)
 // ============================================
 
-router.get('/', claseController.getclases);
+router.get('/', claseController.getClases);
 router.get('/:id', claseController.getClaseById);
-router.get('/instructor/:idInstructor', claseController.getclasesByInstructor);
-router.get('/fecha/:fecha', claseController.getclasesByFecha);
+router.get('/instructor/:idInstructor', claseController.getClasesByInstructor);
+router.get('/fecha/:fecha', claseController.getClasesByFecha);
 
 // ============================================
 // NUEVAS RUTAS: Inscripción de clientes

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getusuarios, getUsuarioById, updateUsuario, deleteUsuario } = require('../controllers/usuarioController');
+const { getUsuarios, getUsuarioById, updateUsuario, deleteUsuario } = require('../controllers/usuarioController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
 const { actualizarUsuarioSchema } = require('../schemas/usuarioSchema');
 
-router.get('/', protegerRuta, verificarRol(1), getusuarios);
+router.get('/', protegerRuta, verificarRol(1), getUsuarios);
 router.get('/:id', protegerRuta, getUsuarioById);
 router.put('/:id', protegerRuta, validate(actualizarUsuarioSchema), updateUsuario);
 router.delete('/:id', protegerRuta, verificarRol(1), deleteUsuario);

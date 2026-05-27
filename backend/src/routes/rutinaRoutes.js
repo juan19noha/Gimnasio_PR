@@ -9,9 +9,9 @@ const { rutinaSchema, ejercicioRutinaSchema } = require('../schemas/rutinaSchema
 router.use(protegerRuta);
 
 // Ver rutinas (propias o todas si es admin)
-router.get('/', rutinaController.getrutinas);
+router.get('/', rutinaController.getRutinas);
 router.get('/:id', rutinaController.getRutinaById);
-router.get('/usuario/:idUsuario', rutinaController.getrutinasByUsuario);
+router.get('/usuario/:idUsuario', rutinaController.getRutinasByUsuario);
 
 // Crear y modificar rutinas (con validación Joi)
 router.post('/', validate(rutinaSchema), rutinaController.postRutina);

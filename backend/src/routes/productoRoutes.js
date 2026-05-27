@@ -6,9 +6,9 @@ const validate = require('../middlewares/validate');
 const { productoSchema } = require('../schemas/productoSchema');
 
 // Rutas públicas (cualquiera puede ver productos)
-router.get('/', productoController.getproductos);
+router.get('/', productoController.getProductos);
 router.get('/:id', productoController.getProductoById);
-router.get('/categoria/:idCategoria', productoController.getproductosByCategoria);
+router.get('/categoria/:idCategoria', productoController.getProductosByCategoria);
 
 // Rutas protegidas (solo ADMIN) + validación Joi
 router.post('/', protegerRuta, verificarRol(1), validate(productoSchema), productoController.postProducto);

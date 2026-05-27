@@ -9,9 +9,9 @@ const { dietaSchema, comidadietaSchema } = require('../schemas/dietaSchema');
 router.use(protegerRuta);
 
 // Ver dietas
-router.get('/', dietaController.getdietas);
+router.get('/', dietaController.getDietas);
 router.get('/:id', dietaController.getDietaById);
-router.get('/usuario/:idUsuario', dietaController.getdietasByUsuario);
+router.get('/usuario/:idUsuario', dietaController.getDietasByUsuario);
 
 // Crear y modificar dietas (con validación Joi)
 router.post('/', validate(dietaSchema), dietaController.postDieta);
