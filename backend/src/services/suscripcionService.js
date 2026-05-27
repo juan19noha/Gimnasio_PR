@@ -15,7 +15,7 @@ const getDuracionPlan = (planId) => {
 };
 
 // Obtener todas las suscripciones (para admin)
-const obtenerSuscripciones = async () => {
+const obtenersuscripciones = async () => {
     const [rows] = await db.query(`
         SELECT 
             s.PK_id_suscripcion,
@@ -37,9 +37,9 @@ const obtenerSuscripciones = async () => {
             u.correo AS cliente_correo,
             u.nombre,
             u.apellido
-        FROM Suscripciones s
-        INNER JOIN Planes p ON s.FK_id_plan = p.PK_id_Plan
-        INNER JOIN Usuarios u ON s.FK_id_usuario = u.PK_id_usuario
+        FROM suscripciones s
+        INNER JOIN planes p ON s.FK_id_plan = p.PK_id_Plan
+        INNER JOIN usuarios u ON s.FK_id_usuario = u.PK_id_usuario
         ORDER BY s.PK_id_suscripcion DESC
     `);
     return rows;
@@ -65,9 +65,9 @@ const obtenerSuscripcionPorUsuario = async (idUsuario) => {
             p.precio_plan,
             p.descripcion_plan,
             CONCAT(u.nombre, ' ', IFNULL(u.apellido, '')) AS cliente_nombre
-        FROM Suscripciones s
-        INNER JOIN Planes p ON s.FK_id_plan = p.PK_id_Plan
-        INNER JOIN Usuarios u ON s.FK_id_usuario = u.PK_id_usuario
+        FROM suscripciones s
+        INNER JOIN planes p ON s.FK_id_plan = p.PK_id_Plan
+        INNER JOIN usuarios u ON s.FK_id_usuario = u.PK_id_usuario
         WHERE s.FK_id_usuario = ?
         AND s.estado != 'Cancelada'
         ORDER BY s.PK_id_suscripcion DESC
@@ -89,7 +89,7 @@ const crearSuscripcion = async (datos) => {
     } = datos;
 
     const [result] = await db.query(
-        `INSERT INTO Suscripciones (
+        `INSERT INTO suscripciones (
             FK_id_usuario, FK_id_plan, fecha_inicio, fecha_vencimiento, 
             estado, tipo_menbresia, precio_suscripcion, duracion_plan
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -101,7 +101,7 @@ const crearSuscripcion = async (datos) => {
 
 // Actualizar estado de suscripción
 const actualizarEstadoSuscripcion = async (id, estado, motivo = null) => {
-    let query = 'UPDATE Suscripciones SET estado = ?';
+    let query = 'UPDATE suscripciones SET estado = ?';
     let params = [estado];
 
     if (estado === 'Cancelada') {
@@ -123,7 +123,7 @@ const actualizarEstadoSuscripcion = async (id, estado, motivo = null) => {
 const solicitarPlan = async (idUsuario, idPlan) => {
     // Obtener datos del plan primero
     const [planRows] = await db.query(
-        'SELECT * FROM Planes WHERE PK_id_Plan = ?',
+        'SELECT * FROM planes WHERE PK_id_Plan = ?',
         [idPlan]
     );
 
@@ -139,7 +139,7 @@ const solicitarPlan = async (idUsuario, idPlan) => {
     fechaVencimiento.setDate(fechaVencimiento.getDate() + duracionDias);
 
     const [result] = await db.query(
-        `INSERT INTO Suscripciones (
+        `INSERT INTO suscripciones (
             FK_id_usuario, FK_id_plan, fecha_inicio, fecha_vencimiento, 
             estado, tipo_menbresia, precio_suscripcion, duracion_plan
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -172,7 +172,7 @@ const procesarPago = async (idSuscripcion, idUsuario, metodoPago) => {
 
         // 1. Obtener datos de la suscripción
         const [subs] = await connection.query(
-            'SELECT * FROM Suscripciones WHERE PK_id_suscripcion = ? AND FK_id_usuario = ?',
+            'SELECT * FROM suscripciones WHERE PK_id_suscripcion = ? AND FK_id_usuario = ?',
             [idSuscripcion, idUsuario]
         );
 
@@ -187,7 +187,7 @@ const procesarPago = async (idSuscripcion, idUsuario, metodoPago) => {
 
         // 3. Crear factura
         await connection.query(
-            `INSERT INTO Facturas (
+            `INSERT INTO facturas (
                 FK_id_suscripcion, FK_id_usuario, numero_factura, 
                 fecha_emision, metodo_pago, total_pagado, devolucion
             ) VALUES (?, ?, ?, NOW(), ?, ?, 0)`,
@@ -196,7 +196,7 @@ const procesarPago = async (idSuscripcion, idUsuario, metodoPago) => {
 
         // 4. Activar suscripción
         await connection.query(
-            'UPDATE Suscripciones SET estado = ? WHERE PK_id_suscripcion = ?',
+            'UPDATE suscripciones SET estado = ? WHERE PK_id_suscripcion = ?',
             ['Activa', idSuscripcion]
         );
 
@@ -223,7 +223,7 @@ const procesarPago = async (idSuscripcion, idUsuario, metodoPago) => {
 // Cancelar suscripción (cliente)
 const cancelarSuscripcion = async (idSuscripcion, idUsuario, motivo) => {
     const [result] = await db.query(
-        `UPDATE Suscripciones 
+        `UPDATE suscripciones 
          SET estado = 'Cancelada', 
              fecha_cancelacion = NOW(), 
              motivo_cancelacion = ? 
@@ -239,7 +239,7 @@ const cancelarSuscripcion = async (idSuscripcion, idUsuario, motivo) => {
 };
 
 module.exports = {
-    obtenerSuscripciones,
+    obtenersuscripciones,
     obtenerSuscripcionPorUsuario,
     crearSuscripcion,
     actualizarEstadoSuscripcion,

@@ -35,14 +35,14 @@ router.post('/cliente', protegerRuta, async (req, res) => {
             const subtotal = prod.cantidad * prod.precio_unitario;
             
             await db.query(
-                `INSERT INTO Detalle_Venta_producto 
+                `INSERT INTO detalle_venta_producto 
                  (FK_id_usuario, FK_id_producto, FK_id_evento, cantidad, total) 
                  VALUES (?, ?, NULL, ?, ?)`,
                 [id_usuario, prod.id_producto, prod.cantidad, subtotal]
             );
             
             await db.query(
-                `UPDATE Productos SET stock = stock - ? WHERE PK_id_producto = ?`,
+                `UPDATE productos SET stock = stock - ? WHERE PK_id_producto = ?`,
                 [prod.cantidad, prod.id_producto]
             );
         }
@@ -76,8 +76,8 @@ router.get('/mis-compras', protegerRuta, async (req, res) => {
                 p.PK_id_producto,
                 p.nombre_producto,
                 p.precio_producto
-             FROM Detalle_Venta_producto d
-             JOIN Productos p ON d.FK_id_producto = p.PK_id_producto
+             FROM detalle_venta_producto d
+             JOIN productos p ON d.FK_id_producto = p.PK_id_producto
              WHERE d.FK_id_usuario = ?
              ORDER BY d.fecha_venta DESC`,
             [id_usuario]

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getPlanes, getPlanById, postPlan, putPlan, deletePlan } = require('../controllers/planController');
+const { getplanes, getPlanById, postPlan, putPlan, deletePlan } = require('../controllers/planController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
 const { planSchema } = require('../schemas/planSchema');
 
 // Cualquiera puede ver los planes
-router.get('/', getPlanes);
+router.get('/', getplanes);
 router.get('/:id', getPlanById);
 
 // Solo administradores pueden crear, editar y eliminar + validación Joi

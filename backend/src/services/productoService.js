@@ -1,11 +1,11 @@
 const pool = require('../config/db');
 
 // Obtener todos los productos con info de categoría
-const obtenerProductos = async () => {
+const obtenerproductos = async () => {
     const [rows] = await pool.query(`
         SELECT p.*, c.nombre_categoria 
-        FROM Productos p
-        LEFT JOIN Categorias c ON p.FK_id_categoria = c.PK_id_categoria
+        FROM productos p
+        LEFT JOIN categorias c ON p.FK_id_categoria = c.PK_id_categoria
     `);
     return rows;
 };
@@ -14,8 +14,8 @@ const obtenerProductos = async () => {
 const obtenerProductoPorId = async (id) => {
     const [rows] = await pool.query(`
         SELECT p.*, c.nombre_categoria 
-        FROM Productos p
-        LEFT JOIN Categorias c ON p.FK_id_categoria = c.PK_id_categoria
+        FROM productos p
+        LEFT JOIN categorias c ON p.FK_id_categoria = c.PK_id_categoria
         WHERE p.PK_id_producto = ?
     `, [id]);
     
@@ -26,11 +26,11 @@ const obtenerProductoPorId = async (id) => {
 };
 
 // Obtener productos por categoría
-const obtenerProductosPorCategoria = async (idCategoria) => {
+const obtenerproductosPorCategoria = async (idCategoria) => {
     const [rows] = await pool.query(`
         SELECT p.*, c.nombre_categoria 
-        FROM Productos p
-        LEFT JOIN Categorias c ON p.FK_id_categoria = c.PK_id_categoria
+        FROM productos p
+        LEFT JOIN categorias c ON p.FK_id_categoria = c.PK_id_categoria
         WHERE p.FK_id_categoria = ?
     `, [idCategoria]);
     return rows;
@@ -48,7 +48,7 @@ const crearProducto = async (datos) => {
     } = datos;
     
     const [result] = await pool.query(`
-        INSERT INTO Productos (FK_id_categoria, nombre_producto, stock, precio_producto, descripcion, promociones)
+        INSERT INTO productos (FK_id_categoria, nombre_producto, stock, precio_producto, descripcion, promociones)
         VALUES (?, ?, ?, ?, ?, ?)
     `, [FK_id_categoria, nombre_producto, stock, precio_producto, descripcion, promociones]);
     
@@ -63,7 +63,7 @@ const actualizarProducto = async (id, datos) => {
     const setClause = campos.map(campo => `${campo} = ?`).join(', ');
     
     const [result] = await pool.query(`
-        UPDATE Productos SET ${setClause} WHERE PK_id_producto = ?
+        UPDATE productos SET ${setClause} WHERE PK_id_producto = ?
     `, [...valores, id]);
     
     if (result.affectedRows === 0) {
@@ -75,7 +75,7 @@ const actualizarProducto = async (id, datos) => {
 // Eliminar producto
 const eliminarProducto = async (id) => {
     const [result] = await pool.query(
-        'DELETE FROM Productos WHERE PK_id_producto = ?', 
+        'DELETE FROM productos WHERE PK_id_producto = ?', 
         [id]
     );
     if (result.affectedRows === 0) {
@@ -87,7 +87,7 @@ const eliminarProducto = async (id) => {
 // Actualizar stock (para ventas o compras)
 const actualizarStock = async (id, cantidad) => {
     const [result] = await pool.query(`
-        UPDATE Productos 
+        UPDATE productos 
         SET stock = stock + ? 
         WHERE PK_id_producto = ?
     `, [cantidad, id]);
@@ -99,9 +99,9 @@ const actualizarStock = async (id, cantidad) => {
 };
 
 module.exports = {
-    obtenerProductos,
+    obtenerproductos,
     obtenerProductoPorId,
-    obtenerProductosPorCategoria,
+    obtenerproductosPorCategoria,
     crearProducto,
     actualizarProducto,
     eliminarProducto,

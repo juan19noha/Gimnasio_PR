@@ -5,8 +5,8 @@ const { generarToken } = require('../utils/jwt');
 const login = async (correo, password) => {
     const [rows] = await pool.query(`
         SELECT u.*, r.nombre_rol 
-        FROM Usuarios u 
-        JOIN Roles r ON u.FK_id_rol = r.PK_id_rol 
+        FROM usuarios u 
+        JOIN roles r ON u.FK_id_rol = r.PK_id_rol 
         WHERE u.correo = ?
     `, [correo]);
 
@@ -34,8 +34,8 @@ const login = async (correo, password) => {
         nombre_rol: usuario.nombre_rol
     });
 
-    const { password: _, ...usuarioSinPassword } = usuario;
-    return { token, usuario: usuarioSinPassword, tabla: tipo };
+    const { password: _, ...usuariosinPassword } = usuario;
+    return { token, usuario: usuariosinPassword, tabla: tipo };
 };
 
 const registro = async (datos, tabla) => {
@@ -49,7 +49,7 @@ const registro = async (datos, tabla) => {
     else if (tabla === 'proveedor') FK_id_rol = 4;
 
     const [result] = await pool.query(`
-        INSERT INTO Usuarios (FK_id_rol, tipo_documento, numero_documento, nombre, apellido, sexo, correo, telefono, password)
+        INSERT INTO usuarios (FK_id_rol, tipo_documento, numero_documento, nombre, apellido, sexo, correo, telefono, password)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [FK_id_rol, datos.tipo_documento, datos.numero_documento, datos.nombre, datos.apellido, datos.sexo, datos.correo, datos.telefono, datos.password]);
 

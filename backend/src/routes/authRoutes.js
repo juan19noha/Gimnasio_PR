@@ -15,7 +15,7 @@ router.post('/recuperar-password', async (req, res, next) => {
         const { correo } = req.body;
 
         const [rows] = await pool.query(
-            'SELECT PK_id_usuario, nombre FROM Usuarios WHERE correo = ?', [correo]
+            'SELECT PK_id_usuario, nombre FROM usuarios WHERE correo = ?', [correo]
         );
 
         // Siempre responder exitoso por seguridad

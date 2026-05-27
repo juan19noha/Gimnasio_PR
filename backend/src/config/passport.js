@@ -11,7 +11,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM Usuarios WHERE PK_id_usuario = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE PK_id_usuario = ?', [id]);
         done(null, rows[0]);
     } catch (error) {
         done(error, null);
@@ -25,7 +25,7 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/api/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM Usuarios WHERE correo = ?', [profile.emails[0].value]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [profile.emails[0].value]);
         
         if (rows.length > 0) {
             // Usuario existe, actualizar datos de Google si es necesario
@@ -34,11 +34,11 @@ passport.use(new GoogleStrategy({
         
         // Crear nuevo usuario con rol de cliente (3)
         const [result] = await pool.query(`
-            INSERT INTO Usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
+            INSERT INTO usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
             VALUES (3, ?, ?, ?, 'oauth_google', 'CC')
         `, [profile.name.givenName, profile.name.familyName, profile.emails[0].value]);
         
-        const [newUser] = await pool.query('SELECT * FROM Usuarios WHERE PK_id_usuario = ?', [result.insertId]);
+        const [newUser] = await pool.query('SELECT * FROM usuarios WHERE PK_id_usuario = ?', [result.insertId]);
         done(null, newUser[0]);
     } catch (error) {
         done(error, null);
@@ -54,18 +54,18 @@ passport.use(new FacebookStrategy({
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const email = profile.emails?.[0]?.value || `${profile.id}@facebook.com`;
-        const [rows] = await pool.query('SELECT * FROM Usuarios WHERE correo = ?', [email]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [email]);
         
         if (rows.length > 0) {
             return done(null, rows[0]);
         }
         
         const [result] = await pool.query(`
-            INSERT INTO Usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
+            INSERT INTO usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
             VALUES (3, ?, ?, ?, 'oauth_facebook', 'CC')
         `, [profile.name.givenName || 'Usuario', profile.name.familyName || 'Facebook', email]);
         
-        const [newUser] = await pool.query('SELECT * FROM Usuarios WHERE PK_id_usuario = ?', [result.insertId]);
+        const [newUser] = await pool.query('SELECT * FROM usuarios WHERE PK_id_usuario = ?', [result.insertId]);
         done(null, newUser[0]);
     } catch (error) {
         done(error, null);
@@ -80,18 +80,18 @@ passport.use(new InstagramStrategy({
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const email = profile.emails?.[0]?.value || `${profile.id}@instagram.com`;
-        const [rows] = await pool.query('SELECT * FROM Usuarios WHERE correo = ?', [email]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [email]);
         
         if (rows.length > 0) {
             return done(null, rows[0]);
         }
         
         const [result] = await pool.query(`
-            INSERT INTO Usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
+            INSERT INTO usuarios (FK_id_rol, nombre, apellido, correo, password, tipo_documento)
             VALUES (3, ?, ?, ?, 'oauth_instagram', 'CC')
         `, [profile.displayName || 'Usuario', 'Instagram', email]);
         
-        const [newUser] = await pool.query('SELECT * FROM Usuarios WHERE PK_id_usuario = ?', [result.insertId]);
+        const [newUser] = await pool.query('SELECT * FROM usuarios WHERE PK_id_usuario = ?', [result.insertId]);
         done(null, newUser[0]);
     } catch (error) {
         done(error, null);

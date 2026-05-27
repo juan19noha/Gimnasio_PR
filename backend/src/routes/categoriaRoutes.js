@@ -3,10 +3,10 @@ const router = express.Router();
 const categoriaController = require('../controllers/categoriaController');
 const { protegerRuta, verificarRol } = require('../middlewares/authMiddleware');
 const validate = require('../middlewares/validate');
-const { categoriaSchema } = require('../schemas/categoriaSchema');
+const { categoriaschema } = require('../schemas/categoriaschema');
 
-router.get('/', categoriaController.getCategorias);
-router.get('/tipo/:tipo', categoriaController.getCategoriasPorTipo);
-router.post('/', protegerRuta, verificarRol(1), validate(categoriaSchema), categoriaController.postCategoria);
+router.get('/', categoriaController.getcategorias);
+router.get('/tipo/:tipo', categoriaController.getcategoriasPorTipo);
+router.post('/', protegerRuta, verificarRol(1), validate(categoriaschema), categoriaController.postCategoria);
 
 module.exports = router;

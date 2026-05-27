@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { 
-    getSuscripciones, 
+    getsuscripciones, 
     getSuscripcionByUsuario, 
     postSuscripcion, 
     putEstadoSuscripcion,
@@ -15,7 +15,7 @@ const { suscripcionSchema, estadoSuscripcionSchema, pagoSchema } = require('../s
 const router = Router();
 
 // Rutas para admin
-router.get('/', protegerRuta, verificarRol(1), getSuscripciones);
+router.get('/', protegerRuta, verificarRol(1), getsuscripciones);
 router.post('/', protegerRuta, verificarRol(1), validate(suscripcionSchema), postSuscripcion);
 router.put('/:id/estado', protegerRuta, verificarRol(1), validate(estadoSuscripcionSchema), putEstadoSuscripcion);
 

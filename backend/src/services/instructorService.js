@@ -5,7 +5,7 @@ const obtenerInstructores = async () => {
     const [rows] = await pool.query(`
         SELECT PK_id_usuario, nombre, apellido, correo, 
                especialidad, horario_laboral, salario, puntuacion, descripcion
-        FROM Usuarios
+        FROM usuarios
         WHERE FK_id_rol = 2
     `);
     return rows;
@@ -15,7 +15,7 @@ const obtenerInstructorPorId = async (id) => {
     const [rows] = await pool.query(`
         SELECT PK_id_usuario, nombre, apellido, correo, 
                especialidad, horario_laboral, salario, puntuacion, descripcion
-        FROM Usuarios
+        FROM usuarios
         WHERE PK_id_usuario = ? AND FK_id_rol = 2
     `, [id]);
     if (rows.length === 0) {
@@ -27,7 +27,7 @@ const obtenerInstructorPorId = async (id) => {
 const crearInstructor = async (datos) => {
     const { nombre, apellido, correo, password, especialidad, horario_laboral, salario, puntuacion, descripcion } = datos;
 
-    const [existe] = await pool.query('SELECT * FROM Usuarios WHERE correo = ?', [correo]);
+    const [existe] = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [correo]);
     if (existe.length > 0) {
         throw { statusCode: 400, message: 'El correo ya está registrado' };
     }
@@ -36,7 +36,7 @@ const crearInstructor = async (datos) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     const [result] = await pool.query(`
-        INSERT INTO Usuarios (FK_id_rol, nombre, apellido, correo, password, especialidad, horario_laboral, salario, puntuacion, descripcion)
+        INSERT INTO usuarios (FK_id_rol, nombre, apellido, correo, password, especialidad, horario_laboral, salario, puntuacion, descripcion)
         VALUES (2, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [nombre, apellido, correo, passwordHash, especialidad, horario_laboral, salario, puntuacion, descripcion]);
 
@@ -54,7 +54,7 @@ const actualizarInstructor = async (id, datos) => {
     const setClause = campos.map(campo => `${campo} = ?`).join(', ');
 
     const [result] = await pool.query(
-        `UPDATE Usuarios SET ${setClause} WHERE PK_id_usuario = ? AND FK_id_rol = 2`,
+        `UPDATE usuarios SET ${setClause} WHERE PK_id_usuario = ? AND FK_id_rol = 2`,
         [...valores, id]
     );
     if (result.affectedRows === 0) {
@@ -65,7 +65,7 @@ const actualizarInstructor = async (id, datos) => {
 
 const eliminarInstructor = async (id) => {
     const [result] = await pool.query(
-        'DELETE FROM Usuarios WHERE PK_id_usuario = ? AND FK_id_rol = 2', [id]
+        'DELETE FROM usuarios WHERE PK_id_usuario = ? AND FK_id_rol = 2', [id]
     );
     if (result.affectedRows === 0) {
         throw { statusCode: 404, message: 'Instructor no encontrado' };

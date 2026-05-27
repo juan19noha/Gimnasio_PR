@@ -1,15 +1,15 @@
 const pool = require('../config/db');
 
 // Obtener todas las dietas con info de usuario y producto
-const obtenerDietas = async () => {
+const obtenerdietas = async () => {
     const [rows] = await pool.query(`
         SELECT d.*, 
                u.nombre as usuario_nombre, 
                u.apellido as usuario_apellido,
                p.nombre_producto
-        FROM Dietas d
-        JOIN Usuarios u ON d.FK_id_usuario = u.PK_id_usuario
-        LEFT JOIN Productos p ON d.FK_id_producto = p.PK_id_producto
+        FROM dietas d
+        JOIN usuarios u ON d.FK_id_usuario = u.PK_id_usuario
+        LEFT JOIN productos p ON d.FK_id_producto = p.PK_id_producto
     `);
     return rows;
 };
@@ -22,9 +22,9 @@ const obtenerDietaPorId = async (id) => {
                u.nombre as usuario_nombre, 
                u.apellido as usuario_apellido,
                p.nombre_producto
-        FROM Dietas d
-        JOIN Usuarios u ON d.FK_id_usuario = u.PK_id_usuario
-        LEFT JOIN Productos p ON d.FK_id_producto = p.PK_id_producto
+        FROM dietas d
+        JOIN usuarios u ON d.FK_id_usuario = u.PK_id_usuario
+        LEFT JOIN productos p ON d.FK_id_producto = p.PK_id_producto
         WHERE d.PK_id_dieta = ?
     `, [id]);
     
@@ -36,7 +36,7 @@ const obtenerDietaPorId = async (id) => {
     
     // Obtener detalles de la dieta (comidas)
     const [detallesRows] = await pool.query(`
-        SELECT * FROM Detalle_dietas
+        SELECT * FROM detalle_dietas
         WHERE FK_id_dieta = ?
     `, [id]);
     
@@ -45,11 +45,11 @@ const obtenerDietaPorId = async (id) => {
 };
 
 // Obtener dietas por usuario
-const obtenerDietasPorUsuario = async (idUsuario) => {
+const obtenerdietasPorUsuario = async (idUsuario) => {
     const [rows] = await pool.query(`
         SELECT d.*, p.nombre_producto
-        FROM Dietas d
-        LEFT JOIN Productos p ON d.FK_id_producto = p.PK_id_producto
+        FROM dietas d
+        LEFT JOIN productos p ON d.FK_id_producto = p.PK_id_producto
         WHERE d.FK_id_usuario = ?
     `, [idUsuario]);
     return rows;
@@ -60,7 +60,7 @@ const crearDieta = async (datos) => {
     const { FK_id_usuario, FK_id_producto, nombre_dieta, objetivo_calorias, fecha_inicio, fecha_fin } = datos;
     
     const [result] = await pool.query(`
-        INSERT INTO Dietas (FK_id_usuario, FK_id_producto, nombre_dieta, objetivo_calorias, fecha_inicio, fecha_fin)
+        INSERT INTO dietas (FK_id_usuario, FK_id_producto, nombre_dieta, objetivo_calorias, fecha_inicio, fecha_fin)
         VALUES (?, ?, ?, ?, ?, ?)
     `, [FK_id_usuario, FK_id_producto, nombre_dieta, objetivo_calorias, fecha_inicio, fecha_fin]);
     
@@ -73,12 +73,12 @@ const crearDieta = async (datos) => {
     };
 };
 
-// Agregar comida a dieta (Detalle_dietas)
+// Agregar comida a dieta (detalle_dietas)
 const agregarComidaADieta = async (datos) => {
     const { FK_id_dieta, horario_comida, alimento, cantidad_gramos, calorias_alimento } = datos;
     
     const [result] = await pool.query(`
-        INSERT INTO Detalle_dietas (FK_id_dieta, horario_comida, alimento, cantidad_gramos, calorias_alimento)
+        INSERT INTO detalle_dietas (FK_id_dieta, horario_comida, alimento, cantidad_gramos, calorias_alimento)
         VALUES (?, ?, ?, ?, ?)
     `, [FK_id_dieta, horario_comida, alimento, cantidad_gramos, calorias_alimento]);
     
@@ -93,7 +93,7 @@ const actualizarDieta = async (id, datos) => {
     const setClause = campos.map(campo => `${campo} = ?`).join(', ');
     
     const [result] = await pool.query(`
-        UPDATE Dietas SET ${setClause} WHERE PK_id_dieta = ?
+        UPDATE dietas SET ${setClause} WHERE PK_id_dieta = ?
     `, [...valores, id]);
     
     if (result.affectedRows === 0) {
@@ -105,7 +105,7 @@ const actualizarDieta = async (id, datos) => {
 // Eliminar comida de dieta
 const eliminarComidaDeDieta = async (idDetalle) => {
     const [result] = await pool.query(
-        'DELETE FROM Detalle_dietas WHERE PK_id_detalle = ?',
+        'DELETE FROM detalle_dietas WHERE PK_id_detalle = ?',
         [idDetalle]
     );
     if (result.affectedRows === 0) {
@@ -117,11 +117,11 @@ const eliminarComidaDeDieta = async (idDetalle) => {
 // Eliminar dieta completa
 const eliminarDieta = async (id) => {
     // Primero eliminar detalles
-    await pool.query('DELETE FROM Detalle_dietas WHERE FK_id_dieta = ?', [id]);
+    await pool.query('DELETE FROM detalle_dietas WHERE FK_id_dieta = ?', [id]);
     
     // Luego eliminar dieta
     const [result] = await pool.query(
-        'DELETE FROM Dietas WHERE PK_id_dieta = ?',
+        'DELETE FROM dietas WHERE PK_id_dieta = ?',
         [id]
     );
     
@@ -132,9 +132,9 @@ const eliminarDieta = async (id) => {
 };
 
 module.exports = {
-    obtenerDietas,
+    obtenerdietas,
     obtenerDietaPorId,
-    obtenerDietasPorUsuario,
+    obtenerdietasPorUsuario,
     crearDieta,
     agregarComidaADieta,
     actualizarDieta,

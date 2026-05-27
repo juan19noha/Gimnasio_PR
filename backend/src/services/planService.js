@@ -1,13 +1,13 @@
 const pool = require('../config/db');
 
-const obtenerPlanes = async () => {
-    const [rows] = await pool.query('SELECT * FROM Planes');
+const obtenerplanes = async () => {
+    const [rows] = await pool.query('SELECT * FROM planes');
     return rows;
 };
 
 const obtenerPlanPorId = async (id) => {
     const [rows] = await pool.query(
-        'SELECT * FROM Planes WHERE PK_id_Plan = ?', [id]
+        'SELECT * FROM planes WHERE PK_id_Plan = ?', [id]
     );
     if (rows.length === 0) {
         throw { statusCode: 404, message: 'Plan no encontrado' };
@@ -18,7 +18,7 @@ const obtenerPlanPorId = async (id) => {
 const crearPlan = async (datos) => {
     const { nombre_plan, descripcion_plan, precio_plan } = datos;
     const [result] = await pool.query(
-        'INSERT INTO Planes (nombre_plan, descripcion_plan, precio_plan) VALUES (?, ?, ?)',
+        'INSERT INTO planes (nombre_plan, descripcion_plan, precio_plan) VALUES (?, ?, ?)',
         [nombre_plan, descripcion_plan, precio_plan]
     );
     return result;
@@ -27,7 +27,7 @@ const crearPlan = async (datos) => {
 const actualizarPlan = async (id, datos) => {
     const { nombre_plan, descripcion_plan, precio_plan } = datos;
     const [result] = await pool.query(
-        'UPDATE Planes SET nombre_plan = ?, descripcion_plan = ?, precio_plan = ? WHERE PK_id_Plan = ?',
+        'UPDATE planes SET nombre_plan = ?, descripcion_plan = ?, precio_plan = ? WHERE PK_id_Plan = ?',
         [nombre_plan, descripcion_plan, precio_plan, id]
     );
     if (result.affectedRows === 0) {
@@ -38,7 +38,7 @@ const actualizarPlan = async (id, datos) => {
 
 const eliminarPlan = async (id) => {
     const [result] = await pool.query(
-        'DELETE FROM Planes WHERE PK_id_Plan = ?', [id]
+        'DELETE FROM planes WHERE PK_id_Plan = ?', [id]
     );
     if (result.affectedRows === 0) {
         throw { statusCode: 404, message: 'Plan no encontrado' };
@@ -46,4 +46,4 @@ const eliminarPlan = async (id) => {
     return result;
 };
 
-module.exports = { obtenerPlanes, obtenerPlanPorId, crearPlan, actualizarPlan, eliminarPlan };
+module.exports = { obtenerplanes, obtenerPlanPorId, crearPlan, actualizarPlan, eliminarPlan };
