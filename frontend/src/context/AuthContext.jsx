@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect } from 'react';
 import api from '../api/axiosConfig';
 
@@ -50,8 +49,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('usuario');
         localStorage.removeItem('planSeleccionado');
         setUsuario(null);
-        // Redirigir a LandingPage (página de visitantes)
-        window.location.href = '/';
+        // NO redirigimos aquí - el componente que llama logout usa navigate
     };
 
     const esAdmin = () => usuario?.tipo === 'administrador' || usuario?.FK_id_rol === 1;

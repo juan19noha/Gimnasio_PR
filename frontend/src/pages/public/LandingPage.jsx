@@ -104,10 +104,10 @@ const LandingPage = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleLogout = () => {
-        logout(); // Esto ya redirige a '/' en AuthContext
+        const handleLogout = () => {
+        logout();
         setDropdownAbierto(false);
-        // NO usar navigate aquí, el logout ya maneja la redirección
+        navigate('/');
     };
 
     const getRoleBadge = () => {

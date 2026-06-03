@@ -4,9 +4,11 @@ import { FaDumbbell, FaUser, FaSignOutAlt, FaTachometerAlt, FaUsers, FaChalkboar
 
 const Navbar = () => {
     const { usuario, logout, esAdmin } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout(); // AuthContext ya redirige a '/' (LandingPage)
+        logout();
+        navigate('/');
     };
 
     const styles = {
@@ -58,6 +60,7 @@ const Navbar = () => {
             gap: '0.3rem',
             fontSize: '0.9rem',
             transition: 'all 0.3s ease',
+            cursor: 'pointer'
         }
     };
 
