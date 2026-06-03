@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerplanes = async () => {
+const obtenerPlanes = async () => {
     const [rows] = await pool.query('SELECT * FROM planes');
     return rows;
 };
@@ -46,4 +46,4 @@ const eliminarPlan = async (id) => {
     return result;
 };
 
-module.exports = { obtenerplanes, obtenerPlanPorId, crearPlan, actualizarPlan, eliminarPlan };
+module.exports = { obtenerPlanes, obtenerPlanPorId, crearPlan, actualizarPlan, eliminarPlan };
