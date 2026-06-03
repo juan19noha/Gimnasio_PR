@@ -8,7 +8,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        
     };
 
     const styles = {

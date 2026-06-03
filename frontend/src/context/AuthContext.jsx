@@ -49,7 +49,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('usuario');
         localStorage.removeItem('planSeleccionado');
         setUsuario(null);
-        // NO redirigimos aquí - el componente que llama logout usa navigate
+        // Forzar navegación a landing page - evita que PrivateRoute redirija a login
+        window.location.replace('/');
     };
 
     const esAdmin = () => usuario?.tipo === 'administrador' || usuario?.FK_id_rol === 1;

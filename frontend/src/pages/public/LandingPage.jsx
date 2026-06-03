@@ -107,7 +107,7 @@ const LandingPage = () => {
         const handleLogout = () => {
         logout();
         setDropdownAbierto(false);
-        navigate('/');
+    
     };
 
     const getRoleBadge = () => {
