@@ -1,17 +1,15 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FaDumbbell, FaTachometerAlt, FaCalendarAlt, FaClipboardList, FaDumbbell as FaRutina, FaAppleAlt, FaShoppingBag, FaShoppingCart, FaCalendarCheck, FaSignOutAlt, FaUser, FaHome } from 'react-icons/fa';
 
 const ClienteLayout = ({ children }) => {
     const { usuario, logout } = useAuth();
-    const navigate = useNavigate();
     const location = useLocation();
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        window.location.replace('/');
     };
-
     const menuItems = [
         { path: '/cliente/dashboard', icon: <FaTachometerAlt />, label: 'Mi Dashboard' },
         { path: '/cliente/perfil', icon: <FaUser />, label: 'Mi Perfil' },
