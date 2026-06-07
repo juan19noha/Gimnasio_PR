@@ -4,10 +4,12 @@ import { FaDumbbell, FaTachometerAlt, FaCalendarAlt, FaClipboardList, FaDumbbell
 
 const ClienteLayout = ({ children }) => {
     const { usuario, logout } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
 
     const handleLogout = () => {
-        logout(); // AuthContext ya redirige a '/' (LandingPage)
+        logout();
+        navigate('/');
     };
 
     const menuItems = [
