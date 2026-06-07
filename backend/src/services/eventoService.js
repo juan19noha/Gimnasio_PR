@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenereventos = async () => {
+const obtenerEventos = async () => {
     const [rows] = await pool.query('SELECT * FROM eventos ORDER BY fecha_hora');
     return rows;
 };
@@ -35,4 +35,4 @@ const eliminarEvento = async (id) => {
     return result;
 };
 
-module.exports = { obtenereventos, obtenerEventoPorId, crearEvento, actualizarEvento, eliminarEvento };
+module.exports = { obtenerEventos, obtenerEventoPorId, crearEvento, actualizarEvento, eliminarEvento };

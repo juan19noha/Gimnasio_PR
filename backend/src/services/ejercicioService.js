@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerejercicios = async () => {
+const obtenerEjercicios = async () => {
     const [rows] = await pool.query('SELECT * FROM ejercicios');
     return rows;
 };
@@ -11,7 +11,7 @@ const obtenerEjercicioPorId = async (id) => {
     return rows[0];
 };
 
-const obtenerejerciciosPorMusculo = async (musculo) => {
+const obtenerEjerciciosPorMusculo = async (musculo) => {
     const [rows] = await pool.query(
         'SELECT * FROM ejercicios WHERE musculo_a_trabajar LIKE ?',
         [`%${musculo}%`]
@@ -43,4 +43,4 @@ const eliminarEjercicio = async (id) => {
     return result;
 };
 
-module.exports = { obtenerejercicios, obtenerEjercicioPorId, obtenerejerciciosPorMusculo, crearEjercicio, actualizarEjercicio, eliminarEjercicio };
+module.exports = { obtenerEjercicios, obtenerEjercicioPorId, obtenerEjerciciosPorMusculo, crearEjercicio, actualizarEjercicio, eliminarEjercicio };

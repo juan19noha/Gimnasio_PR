@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 // Obtener todas las dietas con info de usuario y producto
-const obtenerdietas = async () => {
+const obtenerDietas = async () => {
     const [rows] = await pool.query(`
         SELECT d.*, 
                u.nombre as usuario_nombre, 
@@ -45,7 +45,7 @@ const obtenerDietaPorId = async (id) => {
 };
 
 // Obtener dietas por usuario
-const obtenerdietasPorUsuario = async (idUsuario) => {
+const obtenerDietasPorUsuario = async (idUsuario) => {
     const [rows] = await pool.query(`
         SELECT d.*, p.nombre_producto
         FROM dietas d
@@ -132,9 +132,9 @@ const eliminarDieta = async (id) => {
 };
 
 module.exports = {
-    obtenerdietas,
+    obtenerDietas,
     obtenerDietaPorId,
-    obtenerdietasPorUsuario,
+    obtenerDietasPorUsuario,
     crearDieta,
     agregarComidaADieta,
     actualizarDieta,

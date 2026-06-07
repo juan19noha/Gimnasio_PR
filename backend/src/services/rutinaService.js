@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerrutinas = async () => {
+const obtenerRutinas = async () => {
     const [rows] = await pool.query(`
         SELECT r.*, u.nombre as usuario_nombre, u.apellido as usuario_apellido
         FROM rutinas r
@@ -28,7 +28,7 @@ const obtenerRutinaPorId = async (id) => {
     return rutina;
 };
 
-const obtenerrutinasPorUsuario = async (idUsuario) => {
+const obtenerRutinasPorUsuario = async (idUsuario) => {
     const [rows] = await pool.query(
         'SELECT * FROM rutinas WHERE FK_id_usuario = ?', [idUsuario]
     );
@@ -60,4 +60,4 @@ const eliminarRutina = async (id) => {
     return result;
 };
 
-module.exports = { obtenerrutinas, obtenerRutinaPorId, obtenerrutinasPorUsuario, crearRutina, agregarEjercicioARutina, eliminarRutina };
+module.exports = { obtenerRutinas, obtenerRutinaPorId, obtenerRutinasPorUsuario, crearRutina, agregarEjercicioARutina, eliminarRutina };

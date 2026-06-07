@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerproveedores = async () => {
+const obtenerProveedores = async () => {
     const [rows] = await pool.query('SELECT * FROM proveedores');
     return rows;
 };
@@ -35,4 +35,4 @@ const eliminarProveedor = async (id) => {
     return result;
 };
 
-module.exports = { obtenerproveedores, obtenerProveedorPorId, crearProveedor, actualizarProveedor, eliminarProveedor };
+module.exports = { obtenerProveedores, obtenerProveedorPorId, crearProveedor, actualizarProveedor, eliminarProveedor };

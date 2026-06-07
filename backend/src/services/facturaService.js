@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerfacturas = async () => {
+const obtenerFacturas = async () => {
     const [rows] = await pool.query(`
         SELECT f.*, 
                u.nombre as usuario_nombre, u.apellido as usuario_apellido,
@@ -28,7 +28,7 @@ const obtenerFacturaPorId = async (id) => {
     return rows[0];
 };
 
-const obtenerfacturasPorUsuario = async (idUsuario) => {
+const obtenerFacturasPorUsuario = async (idUsuario) => {
     const [rows] = await pool.query(`
         SELECT f.*, p.nombre_plan
         FROM facturas f
@@ -48,4 +48,4 @@ const crearFactura = async (datos) => {
     return { id: result.insertId, ...datos, fecha_emision: new Date() };
 };
 
-module.exports = { obtenerfacturas, obtenerFacturaPorId, obtenerfacturasPorUsuario, crearFactura };
+module.exports = { obtenerFacturas, obtenerFacturaPorId, obtenerFacturasPorUsuario, crearFactura };

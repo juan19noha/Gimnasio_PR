@@ -1,11 +1,11 @@
 const pool = require('../config/db');
 
-const obtenercategorias = async () => {
+const obtenerCategorias = async () => {
     const [rows] = await pool.query('SELECT * FROM categorias');
     return rows;
 };
 
-const obtenercategoriasPorTipo = async (tipo) => {
+const obtenerCategoriasPorTipo = async (tipo) => {
     const [rows] = await pool.query(
         'SELECT * FROM categorias WHERE tipo_categoria = ?',
         [tipo]
@@ -22,4 +22,4 @@ const crearCategoria = async (datos) => {
     return { id: result.insertId, ...datos };
 };
 
-module.exports = { obtenercategorias, obtenercategoriasPorTipo, crearCategoria };
+module.exports = { obtenerCategorias, obtenerCategoriasPorTipo, crearCategoria };

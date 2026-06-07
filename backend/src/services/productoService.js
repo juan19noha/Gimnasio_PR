@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 // Obtener todos los productos con info de categoría
-const obtenerproductos = async () => {
+const obtenerProductos = async () => {
     const [rows] = await pool.query(`
         SELECT p.*, c.nombre_categoria 
         FROM productos p
@@ -26,7 +26,7 @@ const obtenerProductoPorId = async (id) => {
 };
 
 // Obtener productos por categoría
-const obtenerproductosPorCategoria = async (idCategoria) => {
+const obtenerProductosPorCategoria = async (idCategoria) => {
     const [rows] = await pool.query(`
         SELECT p.*, c.nombre_categoria 
         FROM productos p
@@ -99,9 +99,9 @@ const actualizarStock = async (id, cantidad) => {
 };
 
 module.exports = {
-    obtenerproductos,
+    obtenerProductos,
     obtenerProductoPorId,
-    obtenerproductosPorCategoria,
+    obtenerProductosPorCategoria,
     crearProducto,
     actualizarProducto,
     eliminarProducto,

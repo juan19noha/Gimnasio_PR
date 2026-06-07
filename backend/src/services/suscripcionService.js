@@ -15,7 +15,7 @@ const getDuracionPlan = (planId) => {
 };
 
 // Obtener todas las suscripciones (para admin)
-const obtenersuscripciones = async () => {
+const obtenerSuscripciones = async () => {
     const [rows] = await db.query(`
         SELECT 
             s.PK_id_suscripcion,
@@ -239,7 +239,7 @@ const cancelarSuscripcion = async (idSuscripcion, idUsuario, motivo) => {
 };
 
 module.exports = {
-    obtenersuscripciones,
+    obtenerSuscripciones,
     obtenerSuscripcionPorUsuario,
     crearSuscripcion,
     actualizarEstadoSuscripcion,

@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerusuarios = async () => {
+const obtenerUsuarios = async () => {
     const [rows] = await pool.query(`
         SELECT u.PK_id_usuario, u.nombre, u.apellido, u.correo, u.telefono, 
                u.tipo_documento, u.numero_documento, u.sexo, r.nombre_rol
@@ -46,4 +46,4 @@ const eliminarUsuario = async (id) => {
     return result;
 };
 
-module.exports = { obtenerusuarios, obtenerUsuarioPorId, actualizarUsuario, eliminarUsuario };
+module.exports = { obtenerUsuarios, obtenerUsuarioPorId, actualizarUsuario, eliminarUsuario };

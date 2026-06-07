@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerasistencias = async () => {
+const obtenerAsistencias = async () => {
     const [rows] = await pool.query(`
         SELECT a.*, 
                u.nombre as usuario_nombre, u.apellido as usuario_apellido,
@@ -12,7 +12,7 @@ const obtenerasistencias = async () => {
     return rows;
 };
 
-const obtenerasistenciasPorUsuario = async (idUsuario) => {
+const obtenerAsistenciasPorUsuario = async (idUsuario) => {
     const [rows] = await pool.query(`
         SELECT a.*, c.nombre_clase, c.fecha_hora as clase_fecha_hora
         FROM asistencias a
@@ -22,7 +22,7 @@ const obtenerasistenciasPorUsuario = async (idUsuario) => {
     return rows;
 };
 
-const obtenerasistenciasPorClase = async (idClase) => {
+const obtenerAsistenciasPorClase = async (idClase) => {
     const [rows] = await pool.query(`
         SELECT a.*, u.nombre as usuario_nombre, u.apellido as usuario_apellido
         FROM asistencias a
@@ -52,4 +52,4 @@ const eliminarAsistencia = async (id) => {
     return result;
 };
 
-module.exports = { obtenerasistencias, obtenerasistenciasPorUsuario, obtenerasistenciasPorClase, crearAsistencia, eliminarAsistencia };
+module.exports = { obtenerAsistencias, obtenerAsistenciasPorUsuario, obtenerAsistenciasPorClase, crearAsistencia, eliminarAsistencia };
