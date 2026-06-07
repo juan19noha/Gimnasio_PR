@@ -9,6 +9,8 @@ router.get('/', protegerRuta, verificarRol(1), getUsuarios);
 router.get('/:id', protegerRuta, getUsuarioById);
 router.put('/:id', protegerRuta, validate(actualizarUsuarioSchema), updateUsuario);
 router.delete('/:id', protegerRuta, verificarRol(1), deleteUsuario);
+
+// Obtener proveedores (FK_id_rol = 4) - SOLO UNA VEZ
 router.get('/proveedores', protegerRuta, verificarRol(1), async (req, res, next) => {
     try {
         const pool = require('../config/db');
@@ -47,19 +49,6 @@ router.put('/:id/password', protegerRuta, async (req, res, next) => {
             'UPDATE usuarios SET password = ? WHERE PK_id_usuario = ?', [hash, req.params.id]
         );
         res.json({ success: true, message: 'Contraseña actualizada correctamente' });
-    } catch (error) {
-        next(error);
-    }
-});
-
-// Obtener proveedores (FK_id_rol = 4)
-router.get('/proveedores', protegerRuta, async (req, res, next) => {
-    try {
-        const pool = require('../config/db');
-        const [rows] = await pool.query(
-            'SELECT PK_id_usuario, nombre, apellido, correo, nombre_empresa FROM usuarios WHERE FK_id_rol = 4'
-        );
-        res.json({ success: true, data: rows });
     } catch (error) {
         next(error);
     }
