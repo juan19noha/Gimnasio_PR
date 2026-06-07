@@ -166,31 +166,31 @@ const ElegirPlan = () => {
     };
 
     const procesarPago = async () => {
-        if (!suscripcionCreada) return;
-        const userActual = getUsuario();
-        if (!userActual?.PK_id_usuario) {
-            setError('Error: Usuario no identificado.');
-            return;
-        }
+    if (!suscripcionCreada) return;
+    const userActual = getUsuario();
+    if (!userActual?.PK_id_usuario) {
+        setError('Error: Usuario no identificado.');
+        return;
+    }
 
-        setPagando(true);
-        setError('');
+    setPagando(true);
+    setError('');
 
-        try {
-            const { data } = await api.post('/suscripciones/pagar', {
-                idSuscripcion: suscripcionCreada.id_suscripcion,
-                metodoPago: metodoPago
-            });
-            setFactura(data.data);
-            setModalPago(false);
-            setModalExito(true);
-        } catch (err) {
-            console.error('Error pagando:', err);
-            setError(err.response?.data?.message || 'Error al procesar el pago');
-        } finally {
-            setPagando(false);
-        }
-    };
+    try {
+        const { data } = await api.post('/suscripciones/pagar', {
+            id_suscripcion: suscripcionCreada.id_suscripcion,  // ← snake_case
+            metodo_pago: metodoPago                              // ← snake_case
+        });
+        setFactura(data.data);
+        setModalPago(false);
+        setModalExito(true);
+    } catch (err) {
+        console.error('Error pagando:', err);
+        setError(err.response?.data?.message || 'Error al procesar el pago');
+    } finally {
+        setPagando(false);
+    }
+};
 
     const irAMiSuscripcion = () => {
         navigate('/cliente/suscripcion');
