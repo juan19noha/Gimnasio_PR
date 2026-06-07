@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const obtenerclases = async () => {
+const obtenerClases = async () => {
     const [rows] = await pool.query(`
         SELECT c.*, 
                u.nombre as instructor_nombre, u.apellido as instructor_apellido,
@@ -50,4 +50,4 @@ const eliminarClase = async (id) => {
     return result;
 };
 
-module.exports = { obtenerclases, obtenerClasePorId, crearClase, actualizarClase, eliminarClase };
+module.exports = { obtenerClases, obtenerClasePorId, crearClase, actualizarClase, eliminarClase };

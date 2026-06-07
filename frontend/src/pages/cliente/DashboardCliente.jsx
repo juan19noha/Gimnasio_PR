@@ -19,7 +19,7 @@ const DashboardCliente = () => {
 
                 const [suscRes, clasesRes, rutinasRes] = await Promise.all([
                     api.get(`/suscripciones/usuario/${id}`),
-                    api.get('/clases'),
+                    api.get('/clases/mis-clases'),  // ← Solo las clases donde está inscrito
                     api.get(`/rutinas/usuario/${id}`),
                 ]);
 
